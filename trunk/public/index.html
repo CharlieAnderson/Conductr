@@ -25,21 +25,57 @@
 <!-- =========================== BODY =========================== -->
   <body onload="REDIPS.drag.init()">
     <div id="schedule-container">
-    timetable here
       <div class="timetable"></div>
     </div>
+
     <div id="redips-drag">
-      <table>
-        <tr>
-          <td>
-            <div class="redips-drag">Hello</div>
-          </td>
-        </tr>
-        <tr>
-          <td>world</td>
-        </tr>
-      </table>
+    
+
+    <table>
+      <tr>
+        <th style="visibility:hidden"></th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+      </tr>
+      <tr>
+        <th>task 1</th>
+        <td><div class ="redips-drag">Person 1</div></td>
+        <td><div class ="redips-drag">Person 2</div></td>
+        <td><div class ="redips-drag">Person 2</div></td>
+        <td><div class ="redips-drag">Person 1</div></td>
+        <td><div class ="redips-drag">Person 3</div></td>
+      </tr>
+      <tr>
+        <th>task 2</th>
+        <td><div class ="redips-drag">Person 3</div></td>
+        <td><div class ="redips-drag">Person 1</div></td>
+        <td><div class ="redips-drag">Person 3</div></td>
+        <td><div class ="redips-drag">Person 1</div></td>
+        <td><div class ="redips-drag">Person 3</div></td>
+      </tr>
+      <tr>
+        <th>task 3</th>
+        <td><div class ="redips-drag">Person 2</div></td>
+        <td><div class ="redips-drag">Person 1</div></td>
+        <td><div class ="redips-drag">Person 2</div></td>
+        <td><div class ="redips-drag">Person 1</div></td>
+        <td><div class ="redips-drag">Person 1</div></td>
+      </tr>
+      <tr>
+        <th>task 4</th>
+        <td><div class ="redips-drag">Person 3</div></td>
+        <td><div class ="redips-drag">Person 1</div></td>
+        <td><div class ="redips-drag">Person 3</div></td>
+        <td><div class ="redips-drag">Person 2</div></td>
+        <td><div class ="redips-drag">Person 2</div></td>
+      </tr>
+    </table>
+    
     </div>
+
     <div id="messageBox">
       <ul id="messages"></ul>
     </div>
@@ -56,6 +92,7 @@
     <script type="text/javascript" src="js/lib/redips-drag-min.js"></script>
     <script>
       var TogetherJSConfig_includeHashInUrl = true;
+      var TogetherJSConfig_cloneClicks = true;
       //more config...
     </script>
 <script src="https://togetherjs.com/togetherjs-min.js"></script>
@@ -75,13 +112,8 @@
     </script>
 
     <script>
-    var timetable = new Timetable();
-    timetable.setScope(1, 12);
-    timetable.addLocations(['factory', 'warehouse', 'room']);
-    timetable.addEvent('pick up things', 'factory', new Date(), new Date(2016, 1, 5));
-    var renderer = new Timetable.Renderer(timetable);
-    renderer.draw('.timetable')
-    $('.time-entry').on("dblclick", function() {
+    
+    $('.redips-drag').on("dblclick", function() {
       var $dialog = $("<div>", {class:"dialog-container"}).text("blarg?");
       var $input = $("<input>", {class:"dialog-input"}).text("type here");
       $("#schedule-container").append($dialog);
@@ -94,6 +126,7 @@
       })
 
     });
+
     </script>
   </body>
 

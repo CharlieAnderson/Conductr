@@ -47,3 +47,24 @@
   font-size:20px;
   background:white;
 }
+td, th {
+  width: 16rem;
+  height: 4rem;
+  border: 1px solid #aaa;
+  border-radius:3px;
+  text-align: center;
+}
+th {
+  background: lightblue;
+  border-color: white;
+}
+body {
+  padding: 1rem;
+}
+.redips-drag {
+  border-radius:3px;
+  border: 3px solid lime;
+}
+.redips-drag:hover {
+  background:orange;
+}
