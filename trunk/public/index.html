@@ -1,25 +1,65 @@
 <!doctype html>
 <html>
+
+<!-- =========================== HEAD =========================== -->
   <head>
     <title>Conductr Chat</title>
+    <link rel="stylesheet" href="css/timetablejs.css">
+    <link rel="stylesheet" href="css/app.css">
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 50%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
+      form { background: none; padding: 3px; position: fixed; bottom: 0; width: 75%; height: 10px; bottom: 10%; left: 12.5%; border-radius:5px;}
+      form input { border: 2px solid darkgrey; padding: 10px; width: 80%; margin-right: .5%; border-radius:5px; }
+      form button { width: 15%; background: rgb(130, 224, 255); border: none; padding: 12px; border-radius:5px; }
+      #messages { list-style-type: none; margin: 20%; padding: 0; left:50%; border: 3px solid black; border-radius: 5px;}
+      #messages li { padding: 10px 10px; }
+      #messages li:nth-child(odd) { background: darkgrey; }
+      #messages li:nth-child(even) { background: lightgrey; }
+      #together-button {background: green;}
+      .togetherjs-started {background: red;}
     </style>
   </head>
-  <body>
-    <ul id="messages"></ul>
+
+
+<!-- =========================== BODY =========================== -->
+  <body onload="REDIPS.drag.init()">
+    <div id="schedule-container">
+    timetable here
+      <div class="timetable"></div>
+    </div>
+    <div id="redips-drag">
+      <table>
+        <tr>
+          <td>
+            <div class="redips-drag">Hello</div>
+          </td>
+        </tr>
+        <tr>
+          <td>world</td>
+        </tr>
+      </table>
+    </div>
+    <div id="messageBox">
+      <ul id="messages"></ul>
+    </div>
     <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
+      <input id="m" autocomplete="off" />
+      <button>Send</button>
     </form>
+
+    <button id="together-button" onclick="TogetherJS(this); return false;" data-end-togetherjs-html="End TogetherJS">Start TogetherJS</button>
+
     <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
+    <script src="js/lib/timetable.js/dist/scripts/timetable.min.js"></script>
+    <script type="text/javascript" src="js/lib/redips-drag-min.js"></script>
+    <script>
+      var TogetherJSConfig_includeHashInUrl = true;
+      //more config...
+    </script>
+<script src="https://togetherjs.com/togetherjs-min.js"></script>
+
     <script>
       var socket = io();
       $('form').submit(function(){
@@ -28,8 +68,34 @@
         return false;
       });
       socket.on('chat message', function(msg){
-        $('#messages').append($('<li>').text(msg));
+        if(msg!=="") {
+          $('#messages').append($('<li>').text(msg));
+        }
       });
     </script>
+
+    <script>
+    var timetable = new Timetable();
+    timetable.setScope(1, 12);
+    timetable.addLocations(['factory', 'warehouse', 'room']);
+    timetable.addEvent('pick up things', 'factory', new Date(), new Date(2016, 1, 5));
+    var renderer = new Timetable.Renderer(timetable);
+    renderer.draw('.timetable')
+    $('.time-entry').on("dblclick", function() {
+      var $dialog = $("<div>", {class:"dialog-container"}).text("blarg?");
+      var $input = $("<input>", {class:"dialog-input"}).text("type here");
+      $("#schedule-container").append($dialog);
+      $($dialog).append($input)
+      $($dialog).css('top', $(this).offset().top);
+      $($dialog).css('left', $(this).offset().left);
+
+      $("body").on("click", function(dialog) {
+        $dialog.remove();
+      })
+
+    });
+    </script>
   </body>
+
+
 </html>
