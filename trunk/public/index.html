@@ -1,134 +1,186 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html ng-app = "myApp">
 
 <!-- =========================== HEAD =========================== -->
-  <head>
-    <title>Conductr Chat</title>
-    <link rel="stylesheet" href="css/timetablejs.css">
-    <link rel="stylesheet" href="css/app.css">
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: none; padding: 3px; position: fixed; bottom: 0; width: 75%; height: 10px; bottom: 10%; left: 12.5%; border-radius:5px;}
-      form input { border: 2px solid darkgrey; padding: 10px; width: 80%; margin-right: .5%; border-radius:5px; }
-      form button { width: 15%; background: rgb(130, 224, 255); border: none; padding: 12px; border-radius:5px; }
-      #messages { list-style-type: none; margin: 20%; padding: 0; left:50%; border: 3px solid black; border-radius: 5px;}
-      #messages li { padding: 10px 10px; }
-      #messages li:nth-child(odd) { background: darkgrey; }
-      #messages li:nth-child(even) { background: lightgrey; }
-      #together-button {background: green;}
-      .togetherjs-started {background: red;}
-    </style>
-  </head>
+<head>
+	<title>Conductr Chat</title>
+	<link rel="stylesheet" href="css/app.css">
+	<script src='js/lib/angular/angular.js'></script>
+	<script src="js/lib/angular/angular-route.js"></script>
+	<script src='js/app.js'></script>
+	<script src='js/services.js'></script>
+	<script src='js/controllers.js'></script>
+	<script src='js/filters.js'></script>
+	<script src='js/directives.js'></script>
+
+	
+	<style>
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+		body { font: 13px Helvetica, Arial; }
+		form { background: none; padding: 3px; position: fixed; bottom: 0; width: 75%; height: 10px; bottom: 10%; left: 12.5%; border-radius:5px;}
+		form input { border: 2px solid darkgrey; padding: 10px; width: 80%; margin-right: .5%; border-radius:5px; }
+		form button { width: 15%; background: rgb(130, 224, 255); border: none; padding: 12px; border-radius:5px; }
+		#messages { list-style-type: none; margin: 20%; padding: 0; left:50%; border: 3px solid black; border-radius: 5px;}
+		#messages li { padding: 10px 10px; }
+		#messages li:nth-child(odd) { background: darkgrey; }
+		#messages li:nth-child(even) { background: lightgrey; }
+		#together-button {background: green;}
+		.togetherjs-started {background: red;}
+	</style>
+</head>
 
 
 <!-- =========================== BODY =========================== -->
-  <body onload="REDIPS.drag.init()">
-    <div id="schedule-container">
-      <div class="timetable"></div>
-    </div>
+<body onload="REDIPS.drag.init()" ng-controller="ScheduleCtrl">
 
-    <div id="redips-drag">
-    
+	<div id="redips-drag">
+		<table>
+			<thead>
+				<tr>
+					<td class="newPerson redips-trash">
+					<div class="redips-drag redips-clone">
+					<span></span>
+    				<button type="button" ng-click="editTask(task)">Edit</button>
+    				<input type="text" ng-model="editedTask.sunday" placeholder="Person" >
+    				<button type="button" ng-click="doneEditing(task)">Save</button>
+    				</div>
+					</td>
+					<th class="redips-mark">Sunday</th>
+					<th class="redips-mark">Monday</th>
+					<th class="redips-mark">Tuesday</th>
+					<th class="redips-mark">Wednesday</th>
+					<th class="redips-mark">Thursday</th>
+					<th class="redips-mark">Friday</th>
+					<th class="redips-mark">Saturday</th>
+					<td class="redips-trash">Remove Person</td>
+				</tr>
+				<tr ng-repeat="task in tasks">
+		
+					<th class="redips-mark" ng-class="redips-mark">{{ task.name }}  {{task.id}}</th>
+					<span>edit: {{ edit }}</span>
 
-    <table>
-      <tr>
-        <th style="visibility:hidden"></th>
-        <th>Monday</th>
-        <th>Tuesday</th>
-        <th>Wednesday</th>
-        <th>Thursday</th>
-        <th>Friday</th>
-      </tr>
-      <tr>
-        <th>task 1</th>
-        <td><div class ="redips-drag">Person 1</div></td>
-        <td><div class ="redips-drag">Person 2</div></td>
-        <td><div class ="redips-drag">Person 2</div></td>
-        <td><div class ="redips-drag">Person 1</div></td>
-        <td><div class ="redips-drag">Person 3</div></td>
-      </tr>
-      <tr>
-        <th>task 2</th>
-        <td><div class ="redips-drag">Person 3</div></td>
-        <td><div class ="redips-drag">Person 1</div></td>
-        <td><div class ="redips-drag">Person 3</div></td>
-        <td><div class ="redips-drag">Person 1</div></td>
-        <td><div class ="redips-drag">Person 3</div></td>
-      </tr>
-      <tr>
-        <th>task 3</th>
-        <td><div class ="redips-drag">Person 2</div></td>
-        <td><div class ="redips-drag">Person 1</div></td>
-        <td><div class ="redips-drag">Person 2</div></td>
-        <td><div class ="redips-drag">Person 1</div></td>
-        <td><div class ="redips-drag">Person 1</div></td>
-      </tr>
-      <tr>
-        <th>task 4</th>
-        <td><div class ="redips-drag">Person 3</div></td>
-        <td><div class ="redips-drag">Person 1</div></td>
-        <td><div class ="redips-drag">Person 3</div></td>
-        <td><div class ="redips-drag">Person 2</div></td>
-        <td><div class ="redips-drag">Person 2</div></td>
-      </tr>
-    </table>
-    
-    </div>
+					<td>
+					<div ng-class = "redips-drag" redips-repeat>
+					<span>{{ task.sunday }}</span>
+    				<button type="button" ng-click="editTask(task)">Edit</button>
+    				<input type="text" ng-model="editedTask.sunday" placeholder="Person" >
+    				<button type="button" ng-click="doneEditing(task)">Save</button>
+    				</div>
+					</td>
 
-    <div id="messageBox">
-      <ul id="messages"></ul>
-    </div>
-    <form action="">
-      <input id="m" autocomplete="off" />
-      <button>Send</button>
-    </form>
+					<td>
+					<div ng-class = "redips-drag" redips-repeat>
+					<span>{{ task.monday }}</span>
+    				<button type="button" ng-click="editTask(task)">Edit</button>
+    				<input type="text" ng-model="editedTask.monday" placeholder="Person" >
+    				<button type="button" ng-click="doneEditing(task)">Save</button>
+    				</div>
+					</td>
 
-    <button id="together-button" onclick="TogetherJS(this); return false;" data-end-togetherjs-html="End TogetherJS">Start TogetherJS</button>
+					<td>
+					<div ng-class = "redips-drag" redips-repeat>
+					<span>{{ task.tuesday }}</span>
+    				<button type="button" ng-click="editTask(task)">Edit</button>
+    				<input type="text" ng-model="editedTask.tuesday" placeholder="Person" >
+    				<button type="button" ng-click="doneEditing(task)">Save</button>
+    				</div>
+					</td>
 
-    <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
-    <script src="js/lib/timetable.js/dist/scripts/timetable.min.js"></script>
-    <script type="text/javascript" src="js/lib/redips-drag-min.js"></script>
-    <script>
-      var TogetherJSConfig_includeHashInUrl = true;
-      var TogetherJSConfig_cloneClicks = true;
+					<td>
+					<div ng-class = "redips-drag" redips-repeat>
+					<span>{{ task.wednesday }}</span>
+    				<button type="button" ng-click="editTask(task)">Edit</button>
+    				<input type="text" ng-model="editedTask.wednesday" placeholder="Person" >
+    				<button type="button" ng-click="doneEditing(task)">Save</button>
+    				</div>
+					</td>
+
+					<td>
+					<div ng-class = "redips-drag" redips-repeat>
+					<span>{{ task.thursday }}</span>
+    				<button type="button" ng-click="editTask(task)">Edit</button>
+    				<input type="text" ng-model="editedTask.thursday" placeholder="Person" >
+    				<button type="button" ng-click="doneEditing(task)">Save</button>
+    				</div>
+					</td>
+
+					<td>
+					<div ng-class = "redips-drag" redips-repeat>
+					<span>{{ task.friday }}</span>
+    				<button type="button" ng-click="editTask(task)">Edit</button>
+    				<input type="text" ng-model="editedTask.friday" placeholder="Person" >
+    				<button type="button" ng-click="doneEditing(task)">Save</button>
+    				</div>
+					</td>
+
+					<td>
+					<div ng-class = "redips-drag" redips-repeat>
+					<span>{{ task.saturday }}</span>
+    				<button type="button" ng-click="editTask(task)">Edit</button>
+    				<input type="text" ng-model="editedTask.saturday" placeholder="Person" >
+    				<button type="button" ng-click="doneEditing(task)">Save</button>
+    				</div>
+					</td>
+
+					<td>
+						<button type="button" ng-click="removeTask($index)">Remove Task</button>
+					</td>
+				</tr>
+		</table>
+		<p>
+			{{ tasks }}
+		</p>
+	</div>
+
+    <fieldset>
+      <legend>Create task</legend>
+    <input type="text" ng-model="name" placeholder="Person" ><br />
+    <input type="text" ng-model="sunday" placeholder="su" ><br />
+    <input type="text" ng-model="monday" placeholder="mo" ><br />
+    <input type="text" ng-model="tuesday" placeholder="tu" ><br />
+    <input type="text" ng-model="wednesday" placeholder="we" ><br />
+    <input type="text" ng-model="thursday" placeholder="th" ><br />
+    <input type="text" ng-model="friday" placeholder="fr" ><br />
+    <input type="text" ng-model="saturday" placeholder="sa" ><br />
+
+    <button type="button" ng-click="addTask()">Add Task</button>
+    </fieldset>
+
+	<div id="messageBox">
+		<ul id="messages"></ul>
+	</div>
+	<form action="">
+		<input id="m" autocomplete="off" />
+		<button>Send</button>
+	</form>
+
+	<button id="together-button" onclick="TogetherJS(this); return false;" data-end-togetherjs-html="End TogetherJS">Start TogetherJS</button>
+	<script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
+
+	<script type="text/javascript" src="js/lib/redips-drag-min.js"></script>
+	<script>
+		var TogetherJSConfig_includeHashInUrl = true;
+		var TogetherJSConfig_cloneClicks = true;
       //more config...
-    </script>
-<script src="https://togetherjs.com/togetherjs-min.js"></script>
+  </script>
+  <script src="https://togetherjs.com/togetherjs-min.js"></script>
 
-    <script>
-      var socket = io();
-      $('form').submit(function(){
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
-        return false;
-      });
-      socket.on('chat message', function(msg){
-        if(msg!=="") {
-          $('#messages').append($('<li>').text(msg));
-        }
-      });
-    </script>
+  <script>
+  	var socket = io();
+  	$('form').submit(function(){
+  		socket.emit('chat message', $('#m').val());
+  		$('#m').val('');
+  		return false;
+  	});
+  	socket.on('chat message', function(msg){
+  		if(msg!=="") {
+  			$('#messages').append($('<li>').text(msg));
+  		}
+  	});
+  </script>
 
-    <script>
-    
-    $('.redips-drag').on("dblclick", function() {
-      var $dialog = $("<div>", {class:"dialog-container"}).text("blarg?");
-      var $input = $("<input>", {class:"dialog-input"}).text("type here");
-      $("#schedule-container").append($dialog);
-      $($dialog).append($input)
-      $($dialog).css('top', $(this).offset().top);
-      $($dialog).css('left', $(this).offset().left);
-
-      $("body").on("click", function(dialog) {
-        $dialog.remove();
-      })
-
-    });
-
-    </script>
-  </body>
+</body>
 
 
 </html>

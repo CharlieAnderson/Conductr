@@ -1,59 +1,40 @@
 /* app css stylesheet */
 
-.menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
-}
-
-.menu:before {
-  content: "[";
-}
-
-.menu:after {
-  content: "]";
-}
-
-.menu > li {
-  display: inline;
-}
-
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
-}
-
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
-}
 
 .dialog-container {
   position:absolute;
-  background:darkgrey;
+  background:lavender;
   z-index:998;
+  overflow:hidden;
+  white-space:nowrap;
+  width: 10rem;
+  height: 4rem;
   padding:10px;
-  width: 15%;
-  height: 15%;
   font-size: 14px;
+  border: 2px black solid;
+  border-radius: 3px;
+  text-align: center;
+  transition: width .5s, opacity .4s;
 }
 
-.dialog-input{
-  position:absolute;
-  padding:3px;
-  margin:3px;
+.dialog-input {
+  position:relative;
+  display:block;
+  overflow:hidden;
+  width:100%;
+  margin:0 auto;
   z-index: 999;
-  font-size:20px;
+  font-size:14px;
   background:white;
 }
 td, th {
-  width: 16rem;
+  width: 20rem;
   height: 4rem;
-  border: 1px solid #aaa;
   border-radius:3px;
+  border: 3px solid blue;
   text-align: center;
 }
+
 th {
   background: lightblue;
   border-color: white;
@@ -62,9 +43,30 @@ body {
   padding: 1rem;
 }
 .redips-drag {
-  border-radius:3px;
-  border: 3px solid lime;
+  padding:10px 0px;
+  margin:10px;
+  border: 3px solid #aaa;
 }
 .redips-drag:hover {
   background:orange;
+}
+.redips-clone {
+  padding:10px 0px;
+  margin:10px;
+  border: 3px solid #aaa;
+}
+.redips-clone:hover {
+  background:orange;
+}
+.redips-trash {
+  background:#FF0000;
+}
+.redips-trash:hover {
+  background:#FF5347;
+}
+.newPerson {
+  background:#3AFF68;
+}
+.newPerson:hover {
+  background:#5EFF92;
 }
